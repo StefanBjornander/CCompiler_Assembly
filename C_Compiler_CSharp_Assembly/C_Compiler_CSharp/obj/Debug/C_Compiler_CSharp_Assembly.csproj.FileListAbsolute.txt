@@ -32,3 +32,5 @@ C:\Users\Stefan\Documents\A A A C_Compiler_Assembler - CSharp 0 Assembly\C_Compi
 C:\Users\Stefan\Documents\A A A C_Compiler_Assembler - CSharp 0 Assembly\C_Compiler_CSharp_Assembly\C_Compiler_CSharp\bin\Debug\C_Compiler_CSharp.exe
 C:\Users\Stefan\Documents\A A A C_Compiler_Assembler - CSharp 0 Assembly\C_Compiler_CSharp_Assembly\C_Compiler_CSharp\bin\Debug\C_Compiler_CSharp.pdb
 C:\Users\Stefan\Documents\A A A C_Compiler_Assembler - CSharp 0 Assembly\C_Compiler_CSharp_Assembly\C_Compiler_CSharp\bin\Debug\QUT.ShiftReduceParser.dll
+C:\Users\stefa\Documents\A A C_Compiler_Assembler - CSharp 0 Assembly\C_Compiler_CSharp_Assembly\C_Compiler_CSharp\obj\Debug\C_Compiler_CSharp.exe
+C:\Users\stefa\Documents\A A C_Compiler_Assembler - CSharp 0 Assembly\C_Compiler_CSharp_Assembly\C_Compiler_CSharp\obj\Debug\C_Compiler_CSharp.pdb

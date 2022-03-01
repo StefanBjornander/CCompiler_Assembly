@@ -38,6 +38,7 @@ namespace CCompiler {
         MergeTopPopToPop();
         MergeBinary();
         //MergeDoubleAssign();
+        RemoveTemporaryAssignX();
         RemoveClearedCode();
       } while (m_update);
 
@@ -357,6 +358,66 @@ namespace CCompiler {
         
           m_middleCodeList.RemoveAt(index1);
         }
+      }
+    }
+
+    private void RemoveTemporaryAssignX() {
+      ISet<Symbol> simpleSet = new HashSet<Symbol>();
+
+      foreach (MiddleCode middleCode in m_middleCodeList) {
+        if (middleCode[0] is Symbol resultSymbol) {
+          if (simpleSet.Contains(resultSymbol)) {
+            resultSymbol.ConditionalResult = true;
+          }
+          else {
+            simpleSet.Add(resultSymbol);
+          }
+        }
+      }
+
+      int outerIndex = 0;
+      foreach (MiddleCode outerCode in m_middleCodeList) {
+        if (outerCode.Operator == MiddleOperator.Assign) {
+          Symbol resultSymbol = (Symbol) outerCode[0],
+                 assignSymbol = (Symbol) outerCode[1];
+
+          if (resultSymbol.IsTemporary() &&
+              !resultSymbol.ConditionalResult) {
+            int minAssignIndex = -1, maxAccessIndex = -1;
+
+            for (int innerIndex = outerIndex + 1;
+                 innerIndex < m_middleCodeList.Count; ++innerIndex) {
+              MiddleCode innerCode = m_middleCodeList[innerIndex];
+
+              if ((innerCode[0] == assignSymbol) && (minAssignIndex  == -1)) {
+                minAssignIndex = innerIndex;
+              }
+
+              if (((innerCode[1] == resultSymbol) || (innerCode[2] == resultSymbol)) &&
+                  ((maxAccessIndex  == -1) || (innerIndex > maxAccessIndex))) {
+                maxAccessIndex = innerIndex;
+              }
+            }
+
+            if ((minAssignIndex == -1) || (minAssignIndex >= maxAccessIndex)) {
+              for (int innerIndex = outerIndex + 1; innerIndex < m_middleCodeList.Count; ++innerIndex) {
+                MiddleCode innerCode = m_middleCodeList[innerIndex];
+
+                if (innerCode[1] == resultSymbol) {
+                  innerCode[1] = assignSymbol;
+                }
+                if (innerCode[2] == resultSymbol) {
+                  innerCode[2] = assignSymbol;
+                }
+              }
+
+              outerCode.Clear();
+              m_update = true;
+            }
+          }
+        }
+
+        ++outerIndex;
       }
     }
 
